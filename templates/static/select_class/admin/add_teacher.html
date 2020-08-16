@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../static/layui/css/layui.css">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">工号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="title" required  lay-verify="required" placeholder="请输入教师工号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" value="123456" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">确定添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script src="../../../static/js/util.js"></script>
+<script>
+    //此次添加只提供学工号和密码，其他都为空，由老师登录到老师端去完善信息
+    $("#submit").click(function () {
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/Teacher",
+            type:"POST",
+            data:{
+                number:$("input[name='number']").val(),
+                password:$("input[name='password']").val(),
+                flag:1
+            },
+            success:function (data) {
+                if(data.success){
+                    layer.msg("添加成功")
+                    $("#reset").click()
+                }else{
+                    layer.msg("添加失败")
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends "teacher_base.html" %}
+{% block content %}
+    <table class="layui-table">
+        <thead>
+            <tr><th colspan="3">我的课程表</th></tr>
+            <tr><th>课程编号</th><th>课名</th><th>时间</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>002</td>
+                <td>数据结构</td>
+                <td>周一 10:30-12:00</td>
+            </tr>
+            <tr>
+                <td>002</td>
+                <td>数据结构</td>
+                <td>周一 10:30-12:00</td>
+            </tr>
+        </tbody>
+    </table>
+<script src="../../../static/js/util.js"></script>
+<script>
+   // var course_list = getCourseListByTeacher_id()
+   var course_list = null;
+    $.ajax({
+        url:"http://127.0.0.1:5000/course_teacher",
+        type:"POST",
+        data:{
+            teacher_number: teacher.id
+        },
+        success:function (data) {
+            if(data.success){
+              course_list = data.data
+                $.each(course_list,function (index,item) {
+       var course_number = "<td>"+item.course_number+"</td>"
+       var course_name = "<td>"+item.course_name+"</td>"
+       var course_time = "<td>"+item.class_day+item.class_hours+"</td>" //星期和时间点拼装
+       $("<tr></tr>").append(course_number).append(course_name).append(course_time).appendTo($("tbody"))
+   });
+
+            }
+        }
+    })
+
+</script>
+{% endblock %}

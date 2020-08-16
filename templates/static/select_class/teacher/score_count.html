@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>课程号</th>
+                <th>课程名</th>
+                <th>课程类型</th>
+                <th>结束时间</th>
+                <th>评分</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>12222</td>
+                <td>李军</td>
+                <td>12</td>
+                <td>数据结构</td>
+                <td>C</td>
+                <td>2020春季</td>
+                <td><input name="score" class="layui-input" style="border: none" type="text" value=""></td>
+            </tr>
+        </tbody>
+
+    </table>
+    <a href="http://127.0.0.1/see_score.html">查看成绩</a>
+<script src="../../../static/js/util.js"></script>
+<script>
+    //填充表格，只将还未打分的学生（课程）的信息，已打分的不显示
+    function fillTable(){
+        $.ajax({
+            url:"http://127.0.0.1:5000/performance_teacher",
+            type:"POST",
+            data:{
+                teacher_number:teacher.number
+            },
+            success:function (data) {
+                if(data.success){
+                    $.each(data.data,function (index,item) {
+                        var number = "<td>"+item.number+"</td>" //学生学号
+                        var name = "<td>"+item.name+"</td>" //这里表示学生的姓名
+                        var course_number = "<td>"+item.course_number+"</td>" //课程号
+                        var course_name = "<td>"+item.course_name+"</td>" //课程名称
+                        var type = "<td>"+item.type+"</td>"//课程类型
+                        var term = "<td>"+item.term+"</td>"
+                        var option = "<td><input type='number' class='layui-input'><button type='button' class='layui-btn layui-btn-sm btn-submit'>打分</button></td>"
+                        $("<tr></tr>").append(number).append(name).append(course_name).append(type).append(term).append(option).appendTo("tbody")
+                    })
+                }
+            }
+        })
+    }
+    //提交单个成绩
+    /**
+     *
+     * @param btn 表示提交按钮
+     */
+    $(document).on("click", ".btn-submit",function () {
+        var grade = $(this).prev().val() //获取输入框的值,成绩值
+        var student_number = $(this).parent().parent().children(":eq(1)").text()//获取学生学号
+        var student_name = $(this).parent().parent().children(":eq(2)").text()//获取学生姓名
+        var course_number = $(this).parent().parent().children(":eq(3)").text()//获取课程编号
+        var course_name = $(this).parent().parent().children(":eq(4)").text()//获取课程名称
+        var type = $(this).parent().parent().children(":eq(5)").text()//获取课程类型
+        var term = $(this).parent().parent().children(":eq(6)").text()//获取课程开课学年
+        var teacher = getEntityById(teacher.number,"http://127.0.0.1:5000/manage/user/getTeacher")//通过id获取老师所有信息，因为util.js里面定义的student有可能是未完善的信息
+        var student = getEntityByNumber(student_number,"http://127.0.0.1:5000/manage/user/getStudent")//通过number获取student
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/Course",
+            type:"POST",
+            data:{
+                grade:grade,
+                course_name:course_name,
+                type:type,
+                teacher_name:teacher.name,
+                teacher_phone:teacher.phone,
+                student_name:student_name,
+                student_number:student_number,
+                student_phone:student.phone,
+                flag:0
+            },
+            success:function (data) {
+                if(data.success){
+                    layer.msg("提交成功")
+                    fillTable()
+                }else{
+                    layer.msg("提交失败")
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

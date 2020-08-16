@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script src="../static/layui/layui.js"></script>
+</head>
+<body>
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程名称</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input"  required lay-verify="required" name="course_name">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-inline">
+                <select name="type">
+                    <option value="">A
+                    <option value="">B
+                    <option value="">C
+                    <option value="">D
+                    <option value="">E
+                    <option value="">F
+                    <option value="">G
+                    <option value="">H
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">授课时间</label>
+            <div class="layui-input-inline">
+                <select name="class_day">
+                    <option value="Mon"> 周一
+                    <option value="Mon"> 周二
+                    <option value="Mon"> 周三
+                    <option value="Mon"> 周四
+                    <option value="Mon"> 周五
+                    <option value="Mon"> 周六
+                    <option value="Mon"> 周日
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="class_hours">
+                    <option value="">8:00-09:30
+                    <option value="">10:30-12:00
+                    <option value="">14:30-16:00
+                    <option value="">16:20-18:00
+                    <option value="">18:00-19:30
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">学分</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="" name="credit">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">可选人数</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="200" name="number_optional">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">学时</label>
+            <div class="layui-input-inline">
+                <input name="" class="layui-input" name="class_times">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上课地点</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" name="class_place">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开课学年</label>
+            <div class="layui-input-inline">
+                <select name="">
+                    <option value="2020年春季">2020年春季</option>
+                    <option value="2020年秋季">2020年秋季</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" id="class_submit" class="layui-btn layui-btn-radius layui-btn-primary">提交</button>
+    </form>
+    <script>
+        layui.use('form', function(){
+            var form = layui.form;
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

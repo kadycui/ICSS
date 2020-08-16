@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../static/layui/css/layui.css">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+</head>
+<body>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>学号</th>
+        <th>学生姓名</th>
+        <th>课程编号</th>
+        <th>课程名</th>
+        <th>课程类型</th>
+        <th>结束时间</th>
+        <th>分数</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>132</td>
+        <td>张三</td>
+        <td>12</td>
+        <td>数据结构</td>
+        <td>A</td>
+        <td>2020春</td>
+        <td>92</td>
+    </tr>
+    <tr>
+        <td>132</td>
+        <td>张三</td>
+        <td>12</td>
+        <td>数据结构</td>
+        <td>A</td>
+        <td>2020春</td>
+        <td>92</td>
+    </tr>
+    <tr>
+        <td>132</td>
+        <td>张三</td>
+        <td>12</td>
+        <td>数据结构</td>
+        <td>A</td>
+        <td>2020春</td>
+        <td>92</td>
+    </tr>
+    </tbody>
+</table>
+<script src="../../../static/js/util.js"></script>
+<script>
+    function fillTable() {
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/getPerformance",
+            type:"GET",
+            data:{},
+            success:function (data) {
+                $("tbody").empty()
+                if(data.success){
+                    $.each(data.data,function (index,item) {
+                        var course_number = "<td>"+item.course_number+"</td>"
+                        var student_name = "<td>"+item.student_name+"</td>"
+                        var credit = "<td>"+item.credit+"</td>"
+                        var course_name = "<td>"+item.course_name+"</td>"
+                        var type = "<td>"+item.type+"</td>"
+                        var class_place = "<td>"+item.class_place+"</td>"
+                        var grade = "<td>"+item.grade+"</td>"
+                        $("<tr></tr>").append(course_number)
+                        .append(student_name)
+                        .append(credit)
+                        .append(course_name)
+                        .append(type)
+                        .append(class_place)
+                        .append(grade)
+                        .appendTo($("tbody"))
+                    })
+                }else{
+                    layui.layer.msg("获取失败")
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

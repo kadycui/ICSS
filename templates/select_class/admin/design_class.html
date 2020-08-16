@@ -1,0 +1,85 @@
+{% extends "bash.html" %}
+{% block content %}
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>课程编号</th>
+        <th>课程名</th>
+        <th>类型</th>
+        <th>上课时间</th>
+        <th>可选人数</th>
+        <th>学分</th>
+        <th>申请教师</th>
+        <th>上课地点</th>
+        <th>教师编号</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <script src="../../../static/js/util.js"></script>
+    <script>
+        /**
+         * @description 填充表格的数据
+         */
+        function fillTable() {
+            $.ajax({
+                url:"http://127.0.0.1:5000/manage/admin/get_allcourse",
+                type:"GET",
+                success:function (data) {
+                    console.log(data)
+                    if(data.success){
+                        $("tbody").empty()
+                        $.each(data.data,function (index,item) {
+                            var course_number = "<td>"+item[0]+"</td>"
+                            var course_name = "<td>"+item[1]+"</td>"
+                            var type = "<td>"+item[2]+"</td>"
+                            var time = "<td>"+item[3]+item[4]+"</td>"
+                            var number_optional = "<td>"+item[6]+"</td>"
+                            var credit = "<td>"+item[5]+"</td>"
+                            var name = "<td>"+item[7]+"</td>"
+                            var class_site = "<td>"+item[8]+"</td>"
+                            var number = "<td>"+item[9]+"</td>"
+                           var option = "<td><button class='layui-btn layui-btn-danger layui-btn-sm del'><i class='layui-icon'>&#xe640;</i></button></td>"
+                            $("<tr></tr>").append(course_number)
+                            .append(course_name)
+                            .append(type)
+                            .append(time)
+                            .append(number_optional)
+                            .append(credit)
+                            .append(name)
+                            .append(class_site )
+                            .append(number)
+                            .append(option)
+                            .appendTo($("tbody"))
+                        })
+                    }
+                }
+            })
+        }
+        fillTable()
+        //监听删除按钮
+        $(document).on("click",".del",function () {
+        var number = $(this).parent().parent().children(":eq(0)").text() //获取课程编号
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/admin/del_onecourse",//删除课程接口
+            type:"POST",
+            data:{
+                number:number
+            },
+            success:function (data) {
+                if(data.success){
+                    layui.use("layer",function () {
+                        var layer = layui.layer;
+                        layer.msg("删除成功")
+                    })
+                }else{
+
+                    layui.layer.msg("删除失败")
+                }
+                fillTable()
+            }
+        })
+    })
+    </script>
+</table>
+{% endblock %}

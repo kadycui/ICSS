@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <script src="../js/jquery-3.3.1.js"></script>
+    <script src="../layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table">
+        <thead>
+            <tr><th colspan="3" align="center">我的课程表</th></tr>
+            <tr><th>课程编号</th><th>课程名</th><th>上课时间</th></tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script>
+        var student = window.sessionStorage.getItem("student")
+        //填充表格数据
+        function insertClass_list(class_list){
+            $.each(class_list,function (index,item) {
+                var course_number = "<td>"+item.course_number+"</td>"
+                var course_name = "<td>"+item.course_name+"</td>"
+                var class_time = "<td>"+item.class_day+item.class_hours+"</td>"
+                $("<tr></tr>").append(course_number).append(course_name).append(class_time).appendTo($("tbody"))
+            })
+        }
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/getCourse",
+            type:"POST",
+            data:{
+                number:student.number,
+            },
+            success:function (data) {
+                $("tbody").empty()
+                insertClass_list(data.data)
+            }
+        })
+    </script>
+</body>
+</html>

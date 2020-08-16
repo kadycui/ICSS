@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script src="../static/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <br>
+        <center><h2>教师登录</h2></center>
+        <br>
+        <form method="post" class="layui-form layui-form-pane layui-col-sm8 layui-col-sm-offset4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 50px"><span class="layui-icon">&#xe66f;</span></label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" class="layui-input" name="stuNum" placeholder="请输入学号或者教师工号">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 50px"><span class="layui-icon">&#xe673;</span></label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline" style="width: 130px">
+                        <input type="text" class="layui-input" class="layui-input" placeholder="此处输入验证码" required lay-verify="required"/>
+                    </div>
+                    <div class="layui-input-inline">
+                        <canvas id="canvas" width="100px" height="30px"></canvas>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline" style="width: 250px">
+                        <button type="button" class="layui-btn layui-btn-fluid layui-btn-radius" id="submit">立即登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+    <script>
+            $("#submit").click(function () {
+                $.ajax({
+                    url:"控制器路径",
+                    type:"POST",
+                    data:$("form").serialize(),
+                    success:function (data) {
+                        layui.layer.msg("登陆成功")
+                    }
+                })
+            })
+            function getCheckCode(num) {
+                var context = document.getElementById("canvas").getContext('2d')
+
+                context.fillStyle = '#aedeb8'
+                context.fillRect(0, 0, 100, 30);
+// 登录状态下不会出现这行文字，点击页面右上角一键登录
+                context.fillStyle = '#DD0000';
+                context.font = '24px STheiti, SimHei'
+                context.fillText(getCode(num),20,20,100)
+            }
+            getCheckCode(4)
+            $("#canvas").click(function () {
+                getCheckCode(4)
+            })
+            /**
+             *
+             * @param num 表示要获取随机字符的数量
+             * @returns {number}
+             */
+            function getCode(num) {
+                var arr = [1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
+                random = ""
+                    for(var i =0 ; i < num ; i++){
+                        random = random + arr[Math.floor((Math.random()*61))]
+                    }
+                    return random
+            }
+    </script>
+</body>
+</html>

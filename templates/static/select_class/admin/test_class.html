@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../static/layui/css/layui.css">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.all.js"></script>
+</head>
+<body>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>课程编号</th>
+        <th>课程名</th>
+        <th>类型</th>
+        <th>上课时间</th>
+        <th>可选人数</th>
+        <th>学分</th>
+        <th>申请教师</th>
+        <th>教师编号</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>002</td>
+        <td>数字逻辑</td>
+        <td>A</td>
+        <td>Mon 16:30</td>
+        <td>200</td>
+        <td>1</td>
+        <td>刘道明</td>
+        <td>5000235</td>
+        <td><button class="layui-btn layui-btn-sm layui-btn-disabled">已批准</button></td>
+    </tr>
+    <tr>
+        <td>002</td>
+        <td>数字逻辑</td>
+        <td>A</td>
+        <td>Mon 16:30</td>
+        <td>200</td>
+        <td>1</td>
+        <td>刘道明</td>
+        <td>5000235</td>
+        <td><button class="layui-btn layui-btn-sm">批准</button></td>
+    </tr>
+    <tr>
+        <td>002</td>
+        <td>数字逻辑</td>
+        <td>A</td>
+        <td>Mon 16:30</td>
+        <td>200</td>
+        <td>1</td>
+        <td>刘道明</td>
+        <td>5000235</td>
+        <td><button class="layui-btn layui-btn-sm agree">批准</button></td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    //填充表格
+    function fillTable(){
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/admin/getCourses_publish",
+            type:"GET",
+            data:{},
+            success:function (data) {
+                if(data.success){
+                    $("tbody").empty()
+                    $.each(data.data,function (index,item) {
+                        //填充表格
+                        var course_number = "<td>"+item.course_number+"</td>"
+                        var course_name = "<td>"+item.course_name+"</td>"
+                        var type = "<td>"+item.type+"</td>"
+                        var class_time = "<td>"+item.class_day+item.class_hours+"</td>"
+                        var number_optional = "<td>"+item.number_optional+"</td>"
+                        var credit = "<td>"+item.credit+"</td>"
+                        var teacher_name = "<td>"+item.teacher_name+"</td>"
+                        var teacher_number = "<td>"+item.teacher_number+"</td>"
+                        //如果审核已经通过就显示disabled的按钮  否则就可以点击按钮通过
+                        if(item.publish_status == 0){
+                            var option = "<td><button class='layui-btn layui-btn-sm agree'>通过批准</button></td>"
+                        }else if(item.publish_status == 1){
+                            var option = "<td><button class='layui-btn layui-btn-sm layui-btn-disabled' disabled>已批准</button></td>"
+                        }
+                        $("<tr></tr>").append(course_number)
+                        .append(course_name)
+                        .append(type)
+                        .append(class_time)
+                        .append(number_optional)
+                        .append(credit)
+                        .append(teacher_name)
+                        .append(teacher_number)
+                        .append(option)
+                        .appendTo($("tbody"))
+                    })
+                }else{
+                    layui.layer.msg("获取失败")
+                }
+            }
+        })
+    }
+    $(document).on('click','.agree',function () {
+        var number = $(this).parent().parent().children(":eq(1)").text() //根据课程号来
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/Course",   //课程修改（通过审核）
+            type:"POST",
+            data:{
+                course_number:number,
+                publish_status:1
+            },
+            success:function (data) {
+                if(data.success){
+                    layui.layer.msg("通过审核")
+                    fillTable()
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

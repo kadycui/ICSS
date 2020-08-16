@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+</head>
+<body>
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程名称</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input"  required lay-verify="required" name="course_name">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-inline">
+                <select name="type">
+                    <option value="A">A
+                    <option value="B">B
+                    <option value="C">C
+                    <option value="D">D
+                    <option value="E">E
+                    <option value="F">F
+                    <option value="G">G
+                    <option value="H">H
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">授课时间</label>
+            <div class="layui-input-inline">
+                <select name="class_day">
+                    <option value="周一"> 周一
+                    <option value="周二"> 周二
+                    <option value="周三"> 周三
+                    <option value="周四"> 周四
+                    <option value="周五"> 周五
+                    <option value="周六"> 周六
+                    <option value="周日"> 周日
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="class_hours">
+                    <option value="8:00-09:30">8:00-09:30
+                    <option value="8:00-09:30">10:30-12:00
+                    <option value="14:30-16:00">14:30-16:00
+                    <option value="16:20-18:00">16:20-18:00
+                    <option value="18:00-19:30">18:00-19:30
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">学分</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="" name="credit">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">可选人数</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="200" name="number_optional">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">学时</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" name="class_times">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上课地点</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" name="class_place">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开课学年</label>
+            <div class="layui-input-inline">
+                <select name="term">
+                    <option value="2020年春季">2020年春季</option>
+                    <option value="2020年秋季">2020年秋季</option>
+                </select>
+            </div>
+        </div>
+        <button type="reset" id="reset" class="layui-btn layui-btn-radius layui-btn-primary">重置表单</button>
+        <button type="button" id="class_submit" class="layui-btn layui-btn-radius layui-btn-primary">提交</button>
+    </form>
+    <script src="../../../static/js/util.js"></script>
+    <script>
+        layui.use('form', function(){
+            var form = layui.form;
+           });
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/Course",//添加课程的url接口
+            type:"POST",
+            data:{
+                course_name:$("input[name='course_name']").val(),
+                type: $("select[name='type']").val(),
+                class_day: $("select[name='class_day']").val(),
+                class_hours: $("select[name='class_hours']").val(),
+                credit:$("input[name='credit']").val(),
+                number_optional:$("input[name='number_optional']").val(),
+                class_times:$("input[name='class_times']").val(),//表示的是学时
+                class_place:$("input[name='class_place']").val(),//表示上课地点
+                term:$("input[name='term']").val(),//表示开课学年
+                teacher_id:teacher.id, //教师的id号
+                flag:1
+            },
+            success:function (data) {
+                if(data.success){
+                    layer.msg("提交成功，系统管理员会及时为您审核")
+                    $("#reset").click()//重置表单
+                }
+            }
+        })
+    </script>
+</body>
+</html>

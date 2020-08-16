@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" content="width=device-width,initial-scale=1.0">
+    <title>echart大屏展示</title>
+    <link rel="stylesheet" href="../../../static/layui/css/layui.css">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+    <script src="../../../static/js/echarts/dist/echarts.js"></script>
+    <script src="../../../static/js/echarts/map/js/china.js"></script>
+    <style>
+        #main , #main3,#main4,#main5{
+            width: 500px;
+            height:400px;
+            margin-right: 50px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-sm6" id="main"></div>
+        <div class="layui-col-sm6" id="main3"></div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-sm6" id="main4"></div>
+        <div class="layui-col-sm6" id="main5"></div>
+    </div>
+</div>
+<div style="text-align:center;clear:both;"></div>
+<script src="../../../static/js/main.js"></script>
+<script src="../../../static/js/main3.js"></script>
+<script src="../../../static/js/main4.js"></script>
+<script src="../../../static/js/main5.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "bash.html" %}
+{% block content %}
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>学号</th>
+        <th>学生姓名</th>
+        <th>课程编号</th>
+        <th>课程名</th>
+        <th>课程类型</th>
+        <th>结束时间</th>
+        <th>分数</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script src="../../../static/js/util.js"></script>
+<script>
+    function fillTable() {
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/getPerformance",
+            type:"GET",
+            data:{
+                "tid" : 0
+            },
+            success:function (data) {
+                $("tbody").empty()
+                if(data.success){
+                    $.each(data.data,function (index,item) {
+                        var course_number = "<td>"+item.number+"</td>"
+                        var student_name = "<td>"+item.name+"</td>"
+                        var credit = "<td>"+item.course_number+"</td>"
+                        var course_name = "<td>"+item.course_name+"</td>"
+                        var type = "<td>"+item.type+"</td>"
+                        var class_place = "<td>"+item.term+"</td>"
+                        var grade = "<td>"+item.grade+"</td>"
+                        $("<tr></tr>").append(course_number)
+                        .append(student_name)
+                        .append(credit)
+                        .append(course_name)
+                        .append(type)
+                        .append(class_place)
+                        .append(grade)
+                        .appendTo($("tbody"))
+                    })
+                }else{
+                    layui.layer.msg("获取失败")
+                }
+            }
+        })
+    }
+    fillTable()
+</script>
+{% endblock %}

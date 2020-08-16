@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+</head>
+<body>
+    <form class="layui-form">
+
+            <div class="layui-input-inline" style="display: none">
+                <input type="text" class="layui-input" value="{{ model.id }}"  required lay-verify="required" name="id">
+            </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程ＩＤ</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{{ model.course_number }}"  required lay-verify="required" name="course_number">
+            </div>
+        </div>
+    <div class="layui-form-item">
+            <label class="layui-form-label">课程名称</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{{ model.course_name }}"  required lay-verify="required" name="course_name">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-inline">
+                <select name="type" data-value="">
+
+                    <option value="A" {% if model.type == "A" %} selected {% endif %}>A</option>
+                    <option value="B" {% if model.type == "B" %} selected {% endif %}>B</option>
+                    <option value="C" {% if model.type == "C" %} selected {% endif %}>C</option>
+                    <option value="D" {% if model.type == "D" %} selected {% endif %}>D</option>
+                    <option value="E" {% if model.type == "E" %} selected {% endif %}>E</option>
+                    <option value="F" {% if model.type == "F" %} selected {% endif %}>F</option>
+                    <option value="G" {% if model.type == "G" %} selected {% endif %}>G</option>
+                    <option value="H" {% if model.type == "H" %} selected {% endif %}>H</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">授课时间</label>
+            <div class="layui-input-inline">
+                <select name="class_day">
+                    <option {% if model.class_day == "周一" %} selected {% endif %} value="周一"> 周一</option>
+                    <option {% if model.class_day == "周二" %} selected {% endif %} value="周二"> 周二</option>
+                    <option {% if model.class_day == "周三" %} selected {% endif %} value="周三"> 周三</option>
+                    <option {% if model.class_day == "周四" %} selected {% endif %} value="周四"> 周四</option>
+                    <option {% if model.class_day == "周五" %} selected {% endif %} value="周五"> 周五</option>
+                    <option {% if model.class_day == "周六" %} selected {% endif %} value="周六"> 周六</option>
+                    <option {% if model.class_day == "周日" %} selected {% endif %} value="周日"> 周日</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="class_hours">
+                    <option {% if model.class_hours == "8:00-09:30" %} selected {% endif %} value="8:00-09:30">8:00-09:30 </option>
+                    <option {% if model.class_hours == "10:30-12:00" %} selected {% endif %} value="10:30-12:00">10:30-12:00</option>
+                    <option {% if model.class_hours == "14:30-16:00" %} selected {% endif %} value="14:30-16:00">14:30-16:00</option>
+                    <option {% if model.class_hours == "16:20-18:00" %} selected {% endif %} value="16:20-18:00">16:20-18:00</option>
+                    <option {% if model.class_hours == "18:00-19:30" %} selected {% endif %} value="18:00-19:30">18:00-19:30</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">学分</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{{ model.credit }}" name="credit">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">可选人数</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" {% if model.number_optional %}value="{{ model.number_optional }}"{% else %} value="200" {% endif %}name="number_optional">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">学时</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  value="{{ model.class_times }}"  name="class_times">
+            </div>
+        </div>
+    <div class="layui-form-item">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  value="{{ model.over_time }}"  name="over_time">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">上课地点</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" value="{{ model.class_site }}" name="class_place">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开课学年</label>
+            <div class="layui-input-inline">
+                <select name="term">
+                    <option {% if model.term == "2020年春季" %} selected {% endif %}="2020年春季">2020年春季</option>
+                    <option {% if model.term == "2020年秋季" %} selected {% endif %}="2020年秋季">2020年秋季</option>
+                </select>
+            </div>
+        </div>
+        <input type="text" name="flag" id="flag"  class="layui-form-item" value="{{ flag }}" style="display: none">
+        <button type="reset" id="reset" class="layui-btn layui-btn-radius layui-btn-primary">重置表单</button>
+        <button type="button" id="class_submit" class="layui-btn layui-btn-radius layui-btn-primary" lay-filter="login">提交</button>
+    </form>
+    <script src="../../../static/js/util.js"></script>
+    <script>
+
+        $(function () {
+
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('submit(login)',function (data) {
+                $.ajax({
+                    url:"http://127.0.0.1:5000/manage/user/Course",//添加课程的url接口
+                    type:"POST",
+                    data:{
+                        course_name:$("input[name='course_name']").val(),
+                        id:$("input[name='id']").val(),
+                        course_number:$("input[name='course_number']").val(),
+                        type: $("select[name='type']").val(),
+                        class_day: $("select[name='class_day']").val(),
+                        class_hours: $("select[name='class_hours']").val(),
+                        credit:$("input[name='credit']").val(),
+                        number_optional:$("input[name='number_optional']").val(),
+                        class_times:$("input[name='class_times']").val(),//表示的是学时
+                        class_place:$("input[name='class_site']").val(),//表示上课地点
+                        term:$("input[name='term']").val(),//表示开课学年
+                        teacher_id:teacher.id, //教师的id号
+                        flag:1
+                    },
+                    success:function (data) {
+                        if(data.success){
+                            layer.msg("提交成功，系统管理员会及时为您审核")
+                            $("#reset").click()//重置表单
+                }
+            }
+        })
+
+            })
+           });
+
+
+        $("#class_submit").on("click",function () {
+
+            $.ajax({
+                    url:"http://127.0.0.1:5000/manage/user/Course",//添加课程的url接口
+                    type:"POST",
+                    data:{
+                        course_name:$("input[name='course_name']").val(),
+                        id:$("input[name='id']").val(),
+                        course_number:$("input[name='course_number']").val(),
+                        term:$("select[name='term']").val(),
+                        type: $("select[name='type']").val(),
+                        class_day: $("select[name='class_day']").val(),
+                        class_hours: $("select[name='class_hours']").val(),
+                        credit:$("input[name='credit']").val(),
+                        number_optional:$("input[name='number_optional']").val(),
+                        class_times:$("input[name='class_times']").val(),//表示的是学时
+                        class_place:$("input[name='class_place']").val(),//表示上课地点
+                        over_time:$("input[name='over_time']").val(),//over_time
+
+                        teacher_id:teacher.id, //教师的id号
+                        flag:$('#flag').val()
+                    },
+                    success:function (data) {
+                        if(data.success){
+                            layer.msg("提交成功，系统管理员会及时为您审核")
+                            $("#reset").click()//重置表单
+                }
+            }
+        })
+        })
+
+    })
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+{% extends "bash.html" %}
+{% block content %}
+<script src="../../../static/layui/layui.all.js"></script>
+<div id="update" style="display: none;width: auto">
+    <form class="layui-form" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">教师工号</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="number">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="name">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出生日期</label>
+            <div class="layui-input-inline">
+                <input type="date" name="date_birth" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-inline">
+                <input type="text" class="layui-input" name="phone" required lay-verify="required">
+            </div>
+        </div>
+        <!--省市联动，我到时候会实现-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">籍贯</label>
+            <div class="layui-input-inline" style="width: 100px">
+                <select name="province" id="pro" lay-filter="brickType">
+                    <option>请选择</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 100px">
+                <select name="province_detail" id="cit">
+                    <option>请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">工作时间</label>
+            <div class="layui-input-inline">
+                <input type="number" name="working_hours" class="layui-input" value="5">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">政治面貌</label>
+            <div class="layui-input-inline">
+                <select name="politics_status">
+                    <option value="党员">党员</option>
+                    <option value="预备党员">预备党员</option>
+                    <option value="入党积极分子">入党积极分子</option>
+                    <option value="共青团员">共青团员</option>
+                    <option value="群众">群众</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">教育水平</label>
+            <div class="layui-input-inline">
+                <select type="text" name="education_level">
+                    <option value="讲师">讲师 </option>
+                    <option value="副教授">副教授</option>
+                    <option value="教授">教授</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">工作履历</label>
+            <div class="layui-input-inline">
+                <textarea class="layui-textarea" name="track_record"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline" style="margin-left: 150px">
+                <button type="button" class="layui-btn layui-btn-fluid" id="submit_info">确认修改</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!--<form class="layui-form" action="">-->
+<!--    <div class="layui-form-item">-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="text" class="layui-input" class="layui-input" name="title" required  lay-verify="required" placeholder="请输入姓名或学号" autocomplete="off" class="layui-input">-->
+<!--        </div>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <button class="layui-btn layui-btn-primary">搜索</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>工号</th>
+        <th>姓名</th>
+        <th>出生日期</th>
+        <th>手机号</th>
+        <th>籍贯</th>
+        <th>政治面貌</th>
+        <th>教育水平</th>
+        <th>工作履历</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+    </tr>
+    </tbody>
+</table>
+
+<script src="../../../static/js/place.js"></script>
+<script src="../../../static/js/liandong.js"></script>
+<script src="../../../static/js/util.js"></script>
+<script>
+    function fillTable(){
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/getTeachers",//获取所有老师信息的接口
+            type:"GET",
+            success:function (data) {
+                if(data.success){
+                    $("tbody").empty()
+                    $.each(data.data,function (index,item) {
+
+                      var ID = "<td>"+item.id+"</td>"
+                      var number = "<td>"+item.number+"</td>"
+                      var name = "<td>"+item.name+"</td>"
+                      var date_birth = "<td>"+item.date_birth+"</td>"
+                      var phone = "<td>"+item.phone+"</td>"
+                      var address = "<td>"+item.province+item.province_detail+"</td>"
+                      var politics_status = "<td>"+item.politics_status+"</td>"
+                      var education_level = "<td>"+item.education_level+"</td>"//新添的属性  教育水平
+                      var track_record = "<td>"+item.track_record+"</td>"
+                      var option = "<td><button class='layui-btn layui-btn-sm edit'><i class='layui-icon'>&#xe642;</i></button> &nbsp;<button class='layui-btn layui-btn-danger layui-btn-sm del'><i class='layui-icon'>&#xe640;</i></button></td>"
+                      $("<tr></tr>").append(ID)
+                        .append(number)
+                        .append(name)
+                        .append(date_birth)
+                        .append(phone)
+                        .append(address)
+                        .append(politics_status)
+                        .append(education_level)
+                        .append(track_record)
+                        .append(option)
+                        .appendTo($("tbody"))
+                    })
+                }else {
+                    layui.layer.msg("获取信息失败")
+                }
+            }
+        })
+    }
+    //填充表格信息
+    fillTable()
+    $(document).on("click",".edit",function () {
+        //通过学工号获取教师信息
+        var url = "/manage/user/getTeacher"
+        // var teacher = getEntityByNumber($(this).parent().parent().children(":eq(0)").text(),url)
+        var tnumber = $(this).parent().parent().children(":eq(0)").text()
+        var teacher = null
+        $.ajax({
+        url:url,
+        type:"POST",
+        data:{number:tnumber },
+        success:function (data) {
+            if(data.success){
+                layer.msg("success")
+                teacher = data.data
+                console.log(44444,teacher)
+                layui.layer.open({
+            type: 1,
+            title: '修改教师信息',
+            area:['400px','600px'],
+            content: $('#update'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            success:function(layero){
+                    var mask = $(".layui-layer-shade");
+                    mask.appendTo(layero.parent())
+                }
+            });
+            layui.use('form',function () {
+            var form = layui.form
+            form.on('select(brickType)', function(data){
+                getCity()
+            })
+        })
+        $("input[name='number']").val(teacher.number)
+        $("input[name='name']").val(teacher.name)
+        $("input[name='phone']").val(teacher.phone)
+        $("input[name='date_birth']").val(teacher.date_birth)
+        $("#pro").append("<option value='"+teacher.province+"' selected>"+teacher.province+"</option>")
+        $("#cit").append("<option value='"+teacher.province_detail+"'>"+teacher.province_detail+"</option>")
+        $("option[value='"+teacher.politics_status+"']").attr("selected",true)
+        $("option[value='"+teacher.education_level+"']").attr("selected",true)
+        $("input[name='working_hours']").val(teacher.working_hours)
+        $("textarea[name='track_record']").val(teacher.track_record)
+        layui.form.render()
+
+
+
+
+            }
+
+        }
+    });
+
+    $("#submit_info").on('click',function () {
+                    $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/Teacher",   //修改信息
+            type:"POST",
+            data:{
+                // id:$("input[name='ID']").val(),
+                number:$("input[name='number']").val(),
+                name:$("input[name='name']").val(),
+                phone:$("input[name='phone']").val(),
+                date_birth:$("input[name='date_birth']").val(),
+                province:$("#pro").val(),
+                province_detail: $("#cit").val(),
+                politics_status: $("select[name='politics_status']").val(),
+                education_level:$("select[name='education_level']").val(),
+                working_hours:$("input[name='working_hours']").val(),
+                track_record:$("textarea[name='track_record']").val(),
+                flag:0
+            },
+            success:function (data) {
+                if(data.success){
+                    layer.msg("成功提交")
+                    fillTable()
+                }else{
+                    layer.msg("提交失败")
+                }
+            }
+        })
+                })
+
+
+    })
+    //监听删除学生信息按钮
+    $(document).on("click",".del",function () {
+        var number = $(this).parent().parent().children(":eq(0)").text() //获取工号
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/admin/delTeacher",//删除课程
+            type:"POST",
+            data:{
+                number:number
+            },
+            success:function (data) {
+                if(data.success){
+                    layui.layer.msg("删除成功")
+                    fillTable()
+                }else{
+                    layui.layer.msg("删除失败")
+                }
+            }
+        })
+    })
+
+</script>
+
+{% endblock %}

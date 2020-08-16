@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script src="../static/layui/layui.js"></script>
+</head>
+<body>
+<div id="update" style="display: none">
+<br>
+    <form action="" method="post" class="layui-form" id="form1">
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="name"required lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="sex" value="男" title="男"><input type="radio" name="sex" value="女" title="女">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">院系</label>
+            <div class="layui-input-inline">
+                <select name="department">
+                    <option value="计科院">计科院</option>
+                    <option value="文传院">文传院</option>
+                    <option value="临床院">临床院</option>
+                    <option value="医工院">医工院</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 100px">
+                <select name="professional">
+                    <option>专业1</option>
+                    <option>专业2</option>
+                    <option>专业3</option>
+                    <option>专业4</option>
+                    <option>专业5</option>
+                    <option>专业6</option>
+                    <option>专业7</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 80px">
+                <select name="grade">
+                    <option>2017级</option>
+                    <option>2018级</option>
+                    <option>2019级</option>
+                    <option>2020级</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <!--省市联动，我到时候会实现-->
+            <label class="layui-form-label">籍贯</label>
+            <div class="layui-input-inline" style="width: 70px">
+                <select name="province" id="pro" lay-filter="brickType">
+                    <option>请选择</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 70px">
+                <select name="province_detail" id="cit">
+                    <option>请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">爱好</label>
+            <div class="layui-input-inline">
+                <input type="checkbox" name="hobby" value="java" title="java">
+                <input type="checkbox" name="hobby" value="python" title="python">
+                <input type="checkbox" name="hobby" value="hadoop" title="hadoop">
+                <input type="checkbox" name="hobby" value="机器学习" title="机器学习">
+                <input type="checkbox" name="hobby" value="AI" title="AI">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">政治面貌</label>
+            <div class="layui-input-inline" style="width: 130px">
+                <select name="politics_status">
+                    <option>党员</option>
+                    <option>预备党员</option>
+                    <option>入党积极分子</option>
+                    <option>共青团员</option>
+                    <option>群众</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="phone"class="layui-input" required lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">家庭联系方式</label>
+            <div class="layui-input-inline">
+                <textarea type="text" class="layui-textarea" name="family_card" required lay-verify="required" autocomplete="off"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-left: 60px">
+            <div class="layui-input-inline">
+                <button type="button"  style="width: 100px" class="layui-btn layui-btn-radius layui-btn-fluid" id="submit_info">保存信息</button>
+            </div>
+        </div>
+    </form>
+</div>
+  <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="nameOrNumber" required  lay-verify="required" placeholder="请输入姓名或学号" autocomplete="off">
+        </div>
+        <div class="layui-input-inline">
+            <button class="layui-btn layui-btn-primary">搜索</button>
+        </div>
+  </div>
+
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>专业</th>
+        <th>年级</th>
+        <th>出生日期</th>
+        <th>籍贯</th>
+        <th>爱好</th>
+        <th>政治面貌</th>
+        <th>手机号</th>
+        <th>家庭联系</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>123</td>
+        <td>奥巴马</td>
+        <td>男</td>
+        <td>计算机</td>
+        <td>2020级</td>
+        <td>1996-03-9</td>
+        <td>四川成都</td>
+        <td>听音乐，看书，写字</td>
+        <td>预备党员</td>
+        <td>12345678912</td>
+        <td>12345678</td>
+        <td><div class="layui-btn-group">
+            <button type="button" class="layui-btn layui-btn-sm edit">
+                <i class="layui-icon">&#xe642;</i>
+            </button>
+            &nbsp;&nbsp;
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm">
+                <i class="layui-icon">&#xe640;</i>
+            </button>
+        </div></td>
+    </tr>
+    </tbody>
+</table>
+<script src="../static/js/place.js"></script>
+<script src="../static/js/liandong.js"></script>
+<script>
+    $(".edit").click(function () {
+        layui.layer.open({
+            type: 1,
+            title:"修改学生信息",
+            area:['600px','600px'],
+            content: $('#update') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+        })
+        layui.form.render()
+    })
+    layui.use('form',function () {
+        var form = layui.form
+        form.on('select(brickType)', function(data){
+            getCity()
+        })
+    })
+</script>
+</body>
+</html>

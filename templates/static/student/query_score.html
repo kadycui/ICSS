@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <script src="../js/jquery-3.3.1.js"></script>
+    <script src="../layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table">
+        <thead>
+            <tr><th colspan="4">成绩查询</th></tr>
+            <tr><th>课程名</th><th>分数</th><th>学分</th><th>结束时间</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>数字逻辑</td>
+            <td>85</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>毛概</td>
+            <td>76</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>hadoop</td>
+            <td>36</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>nosql</td>
+            <td>暂未出成绩</td>
+            <td>暂未出成绩</td>
+        </tr>
+        </tbody>
+    </table>
+    <script>
+        //获取成绩
+        var student = window.sessionStorage.getItem("student")
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/performance_get",
+            type:"POST",
+            data:{
+                number:student.number,
+            },
+            success:function(data) {
+
+        }
+        })
+
+        /**
+         *
+         * @param course_number 课程编号
+         */
+        function getCourse(course_number) {
+            var course ;//用来存储课程对象
+            $.ajax({
+                url:"http://127.0.0.1:5000/manage/user/performance_get",
+                data:{
+                    course_number:course_number
+                },
+                type:"POST",
+                success:function (data) {
+                   if(data.success) {
+                       course = data.data
+                       $("tbody").empty()
+                       insertSCore(course)
+                   }
+                }
+            })
+            return course
+        }
+        function insertSCore(score_list) {
+            $.each(score_list,function (index,item) {
+                var course = getCourse(item.course_number) //获取课程的信息
+                var course_name = "<td>"+item.course_name+"</td>"
+                var course_grade = "<td>"+item.grade+"</td>"
+                var credit = "<td>"+course.credit+"</td>"
+                //课程这个实体里面需要加一个结束时间这个字段，over_time
+                var over_time = "<td>"+course.over_time+"</td>"
+                $("<tr></tr>").append(course_name).append(course_grade).append(credit).append(over).appendTo($("tbody"))
+            })
+        }
+    </script>
+</body>
+</html>

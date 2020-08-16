@@ -1,0 +1,209 @@
+{% extends "teacher_base.html" %}
+{% block content %}
+    <style>
+        .layui-form-label{
+            width: 100px;
+        }
+    </style>
+
+<div class="layui-container">
+    <div class="layui-row">
+        <br>
+            <center><h2>信息完善</h2></center>
+        <br>
+        <div class="layui-col-sm10 layui-col-sm-offset1">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教师工号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" style="width: 400px" name="number">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">修改密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" class="layui-input" style="width: 400px" name="password">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" style="width: 400px" name="name">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">出生日期</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="date_birth" class="layui-input">
+                    </div>
+                    <label class="layui-form-label" style="margin: 0px ;padding:10px 10px 0px 0px;width:80px">工作时间</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="working_hours"  style="width:80px" class="layui-input" min="0" max="20" maxlength="2">
+                    </div>
+                </div>
+
+                 <div class="layui-form-item">
+                     <label class="layui-form-label" style="margin: 0px ;padding:10px 10px 0px 0px;width:80px">政治面貌</label>
+                     <div class="layui-input-inline" style="width:100px">
+<!--                         <select name="politics_status" id="politics_status">-->
+<!--                             <option value="党员">党员-->
+<!--                             <option value="预备党员">预备党员-->
+<!--                             <option value="入党积极分子">入党积极分子-->
+<!--                             <option value="共青团员">共青团员-->
+<!--                             <option value="群众">群众-->
+<!--                         </select>-->
+                         <input type="text" class="layui-input" style="width: 100px" name="politics_status">
+                     </div>
+                     <label class="layui-form-label">教育水平</label>
+                     <div class="layui-input-inline">
+<!--                         <select type="text" name="education_level">-->
+<!--                             <option value="讲师">讲师-->
+<!--                             <option value="副教授">副教授-->
+<!--                             <option value="教授">教授-->
+<!--                         </select>-->
+                         <input type="text" class="layui-input" style="width: 100px" name="education_level">
+                     </div>
+                 </div>
+
+                <div class="layui-form-item">
+                <!--省市联动，我到时候会实现-->
+                <label class="layui-form-label">籍贯</label>
+                <div class="layui-input-inline" style="width: 100px">
+<!--                    <select name="province" id="pro" lay-filter="brickType">-->
+<!--                        <option>请选择</option>-->
+<!--                    </select>-->
+                    <input id="pro" type="text" class="layui-input" style="width: 100px" name="province">
+                </div>
+                <div class="layui-input-inline" style="width: 70px">
+<!--                    <select name="province_detail" id="cit">-->
+<!--                        <option>请选择</option>-->
+<!--                    </select>-->
+                   <input id="cit" type="text" class="layui-input" style="width: 100px" name="province_detail">
+                </div>
+                </div>
+                 <div class="layui-form-item">
+
+                 </div>
+                 <div class="layui-form-item">
+                     <label class="layui-form-label">工作履历</label>
+                     <div class="layui-input-inline">
+                          <textarea name="track_record" class="layui-textarea" style="width: 400px"></textarea>
+                     </div>
+                 </div>
+                <input type="number" name="flag" value="0" style="display: none">
+                <input type="number" name="id" value="0" style="display: none">
+                 <div class="layui-form-item">
+                     <div class="layui-input-block">
+                         <button type="button" style="width: 400px" class="layui-btn layui-btn-radius" id="submit_info">提交信息</button>
+                     </div>
+                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<script src="../../../static/js/place.js"></script>
+<script src="../../../static/js/liandong.js"></script>
+<script src="../../../static/js/util.js"></script>
+<script>
+    var teachers = ""
+    $.ajax({
+        url:"http://127.0.0.1:5000/manage/user/againTeacher",
+        type:"POST",
+        data:{"number":teacher.id},
+        success:function (data) {
+            teachers = data.data
+            // layui.layer.msg("信息已提交")
+                $("input[name='number']").val(teachers.number).attr("readonly",true)
+                $("input[name='name']").val(teachers.name).attr("readonly",true)
+                $("input[name='date_birth']").val(teachers.date_birth)
+                $("input[name='password']").val(teachers.password)
+
+                //政治面貌可以改
+                $("input[name='politics_status']").val(teachers.politics_status).attr("readonly",true)
+                $("input[name='education_level']").val(teachers.education_level).attr("readonly",true)
+
+                // $("#pro").append("<option value='" + teachers.province + "'selected>" + teachers.province + "</option>")
+                // $("#cit").append("<option value='" + teachers.province_detail + "'selected>" + teachers.province_detail + "</option>")
+                $("textarea[name='track_record']").val(teachers.track_record)
+                $("input[name='working_hours']").val(teachers.working_hours)
+                $("input[name='province']").val(teachers.province).attr("readonly",true)
+                $("input[name='province_detail']").val(teachers.province_detail).attr("readonly",true)
+
+            $("#submit_info").click(function () {
+                $.ajax({
+                    url: "http://127.0.0.1:5000/manage/user/Teacher",
+                    type: "POST",
+                    data: $("form").serialize(),  //需要添加一个flag：0 完善表单信息
+                    success: function (data) {
+                        layui.layer.msg("信息已提交")
+                    }
+                })
+                $("form").serialize();
+            })
+            layui.use('form', function () {
+                var form = layui.form;
+                form.on('select(brickType)', function (data) {
+                    getCity()
+                })
+                //监听提交
+                form.on('submit(formDemo)', function (data) {
+                    layer.msg(JSON.stringify(data.field));
+                    return false;
+                })
+            });
+        }
+})
+            function fillForm() {
+                //如果name值为空 则需要完善 否则就是修改当前信息
+                if (teachers.name != null) {
+                    $("input[name='number']").val(teachers.number).attr("readonly", true)
+                    $("input[name='name']").val(teachers.name).attr("readonly", true)
+                    $("input[name='date_birth']").val(teachers.date_birth)
+                    $("input[name='politics_status']").val(teachers.politics_status)
+                    $("#pro").val(teachers.province).attr("readonly", true)
+                    $("#cit").val(teachers.province_detail).attr("readonly", true)
+                    // $("#cit").append("<option value='" + teachers.province_detail + "'>" + teachers.province_detail + "</option>")
+                    // $("option[value='" + teachers.politics_status + "']").attr("selected", true)
+                    $("option[value='" + teachers.education_level + "']").attr("selected", true)
+                    $("input[name='working_hours']").val(teachers.working_hours)
+                    $("textarea[name='track_record']").val(teachers.track_record)
+                }
+
+                $.ajax({
+                    url: "http://127.0.0.1:5000/manage/user/teacher",
+                    type: "POST",
+                    data: {
+                        id: teachers.id,
+                        number: $("input[name='number']").val(),
+                        name: $("input[name='name']").val(),
+                        date_birth: $("input[name='date_birth']").val(),
+                        province: $("#pro").val(),
+                        province_detail: $("#cit").val(),
+                        politics_status: $("input[name='politics_status']").val(),
+                        education_level: $("input[name='education_level']").val(),
+                        working_hours: $("input[name='working_hours']").val(),
+                        track_record: $("textarea[name='track_record']").val(),
+                        flag: 0
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            layer.msg("成功提交")
+                        } else {
+                            layer.msg("提交失败")
+                        }
+                    }
+                })
+            }
+
+
+    </script>
+<script>
+$(document).ready(function(){
+
+    if(teachers.name != null){
+
+            }
+});
+</script>
+{% endblock %}

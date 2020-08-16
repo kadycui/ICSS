@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <script src="../js/jquery-3.3.1.js"></script>
+    <script src="../layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table">
+        <thead>
+            <tr align="center"><th colspan="5">我的课程</th></tr>
+            <tr><th>课程编号</th><th>课程名</th><th>类型</th><th>学分</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <a href="http://127.0.0.1:5000/student/select_class">选课</a>
+    <script>
+        //获取学生信息
+        student = window.sessionStorage.getItem("student")
+        //获取
+        /**
+         * @description 该方法主要将课程填充到表格里面
+         * @param class_list 通过ajax获取的课程数组
+         */
+        function insertClass(class_list){
+            $.each(class_list,function (index,item) {
+                var course_number = "<td>"+item.course_number+"</td>"
+                var course_name = "<td>"+item.course_name+"</td>"
+                var type = "<td>"+item.type+"</td>"
+                var credit = "<td>"+item.credit+"</td>"
+                var del = "<td><a href='javascript:rmClass("+student.number+","+course_number+");'></a></td>"
+                $("<tr></tr>").append(course_number).append(course_name).append(type).append(credit).append(del).appendTo($("tbody"))
+            })
+        }
+
+        /**
+         *
+         * @param number 退课的学生学号
+         * @param course_number 退课的课程编号
+         */
+        function rmClass(number,course_number){
+            $.ajax({
+                //这个是学生退课的接口，到时候如果和你的url不一致 麻烦你修改一下
+                url:"http://127.0.0.1:5000/student/rm_class",
+                type:"POST",
+                data:{
+                    student_number:number,
+                    course_number:course_number
+                },
+                success: function (data) {
+                    if(data.success){
+                        layer.msg("删除成功")
+                        //重新将数据填入表格
+                        getClass()
+                    }
+                }
+            })
+        }
+        function getClass(){
+            //根据相应number学号进行请求已选的课程
+            $.ajax({
+                //删除课程的接口，如果不一致 你到时候改一下
+                url:"http://127.0.0.1:5000/manage/user/getCourse",
+                type:"POST",
+                data:{
+                    number:student.number
+                },
+                success:function (data) {
+                    //先将tobody里面的内容清空
+                    $("table tbody").empty()
+                    //然后再将更新后的课程显示到表格上
+                    insertClass(data.data)
+                }
+            })
+        }
+        getClass()
+    </script>
+</body>
+</html>

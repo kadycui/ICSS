@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script src="../static/layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table">
+        <thead>
+            <tr align="center"><th colspan="4">我的课程</th></tr>
+            <tr><th>课程编号</th><th>课程名</th><th>学分</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>001</td>
+                <td>数字逻辑</td>
+                <td>2</td>
+                <td><a href="">删除</a></td>
+            </tr>
+            <tr>
+                <td>001</td>
+                <td>毛概</td>
+                <td>2</td>
+                <td><a href="">删除</a></td>
+            </tr>
+            <tr>
+                <td>001</td>
+                <td>hadoop</td>
+                <td>5</td>
+                <td><a href="">删除</a></td>
+            </tr>
+            <tr>
+                <td>001</td>
+                <td>nosql</td>
+                <td>2</td>
+                <td><a href="">删除</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="select_class.html">选课</a>
+</body>
+{% endblock %}

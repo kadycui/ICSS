@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../static/layui/layui.js"></script>
+
+
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <br>
+        <center><h2>登录</h2></center>
+        <br>
+        <form class="layui-form layui-form-pane layui-col-sm8 layui-col-sm-offset4">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 50px"><span class="layui-icon">&#xe66f;</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="number" placeholder="请输入学号">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 50px"><span class="layui-icon">&#xe673;</span></label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" placeholder="请输入登录密码" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 60px">身份</label>
+                <div class="layui-input-inline">
+                    <select name="permission" id="permission">
+                        <option value="1">学生</option>
+                        <option value="2">教师</option>
+                        <option value="3">超级管理员</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="width: 130px">
+                    <input type="text" class="layui-input" id="check_code" placeholder="此处输入验证码" lay-filter="check_code" required lay-verify="required"/>
+                </div>
+                <div class="layui-input-inline">
+                    <canvas id="canvas" width="100px" height="30px"></canvas>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="width: 250px">
+                    <button type="button" class="layui-btn layui-btn-fluid layui-btn-radius" id="submit">立即登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //定义验证码
+    var check_code
+    layui.use('form', function(){
+        var form = layui.form
+
+    });
+    //监听提交按钮
+    // var permission = $("#permission").val();
+    // var permission = 3;
+
+    // console.log(permission);
+    $("#submit").click(function () {
+        //如果验证码错误
+        if($("#check_code").val() != check_code && $("#check_code").val() != "") {
+            layer.msg("验证码错误")
+            return false;
+        }else{
+            //获取表单提交的权限值
+            // var permission1 = $("input[name='permission']").val();
+            var permission = $("select[name='permission']").val();
+            $.ajax({
+                url:"http://127.0.0.1:5000/login",
+                type:"POST",
+                data:{
+                    number:$("input[name='number']").val(),
+                    password:$("input[name='password']").val(),
+                    permission:permission
+                },
+                success:function (data) {
+                    if (data.success == true){
+                        //通过判断权限进行跳转到不同的页面
+                        // console.log(permission);
+                        if(permission == 1){
+                            console.log(data);
+                            window.sessionStorage.setItem("student",data.data);
+                            layer.msg("欢迎"+data.data.name+"同学进入系统");
+                            location.href = "http://127.0.0.1:5000/login/student_index";
+                            /*将数据加载到页面的工作*/
+                        }else if(permission == 2){
+                            window.sessionStorage.setItem("teacher",data.data);
+                            layer.msg("欢迎"+data.data.name+"老师进入系统");
+                            location.href = "http://127.0.0.1:5000/login/teacher_index";
+                        }else if(permission == 3){
+                            window.sessionStorage.setItem("admin",data.data);
+                            layer.msg("欢迎"+data.data.name+"管理员登录系统");
+                            console.log(permission);
+                            location.href = "http://127.0.0.1:5000/manage";
+                        }
+                    }
+                }
+            })
+        }
+    });
+    function getCheckCode(num) {
+        var context = document.getElementById("canvas").getContext('2d');
+        context.fillStyle = '#aedeb8';
+        context.fillRect(0, 0, 100, 30);
+// 登录状态下不会出现这行文字，点击页面右上角一键登录
+        context.fillStyle = '#DD0000';
+        context.font = '24px STheiti, SimHei';
+        context.fillText(getCode(num),20,20,100)
+    }
+    getCheckCode(4);
+    $("#canvas").click(function () {
+        getCheckCode(4)
+    })
+    /**
+     *
+     * @param num 表示要获取随机字符的数量
+     * @returns {number}
+     */
+    function getCode(num) {
+        var arr = [1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
+        random = ""
+        for(var i =0 ; i < num ; i++){
+            random = random + arr[Math.floor((Math.random()*61))]
+        }
+        check_code = random
+        return random
+    }
+</script>
+</body>
+</html>

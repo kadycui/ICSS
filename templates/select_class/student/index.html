@@ -1,0 +1,85 @@
+{% extends "stu_index.html" %}
+{% block content %}
+
+<table class="layui-table">
+    <thead>
+    <!--就是你没选过的课程-->
+    <tr><th colspan="7" align="center">可能想选的课程</th></tr>
+    <tr>
+        <th>课程编号</th>
+        <th>课程名</th>
+        <th>学分</th>
+        <th>类型</th>
+        <th>学时</th>
+        <th>老师</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="inp_tybod">
+    </tbody>
+
+<!--    <script src="../../../static/js/util.js"></script>-->
+    <script>
+        //选取课程之后并刷新表格
+        function selectCourseAndRefresh(number,course_number,teacher) {
+            selectCourse(number,course_number,teacher);
+            unSelectedCourse()
+        }
+        //该请求地址返回的是客户没有选过的课程列表
+        var t_body = $("#inp_tybod")
+        function unSelectedCourse(){
+            $.ajax({
+                url:"http://127.0.0.1:5000/student/course_select", //个到时候你再改返回学生没有选过课的url
+                type:"POST",
+                data:{
+                    student_number:student.id
+                },
+                success:function(data) {
+                    if(data.success){
+                        var course_lsit =  data.data
+                        $("tbody").empty()
+                        $.each(course_lsit,function (index,item) {
+                            //获取教该课的老师对象
+                            //var teacher = getEntityById(item.teacher_number,"http://127.0.0.1:5000/manage/user/getTeacher")
+                            var course_number = "<td>"+item.course_number+"</td>"
+                            var course_name = "<td>"+item.course_name+"</td>"
+                            var credit = "<td>"+item.credit+"</td>"
+                            var  type= "<td>"+item.type+"</td>"
+                            var class_times = "<td>"+item.class_times+"</td>" //在课程字段你得定义一个学时 times为学时
+                            var teacher = "<td>"+item.name+"</td>"
+                            var option = "<td><a href = 'javascript:selectCourseAndRefresh("+student.number+","+item.course_number+","+item.teacher_id+")'>选课</a></td>"
+                            $("<tr></tr>").append(course_number).append(course_name).append(credit).append(type).append(class_times).append(teacher).append(option).appendTo($("tbody"))
+                            // console.log(t_body,55555555555555555555555)
+                        })
+
+                    }
+                }
+            })
+        }
+        function selectCourse(number,course_number,tea) {
+        console.log(number,course_number,tea,88877)
+        $.ajax({
+            url:"http://127.0.0.1:5000/student/performance_student",
+            type:"POST",
+            data:{
+                student_number:number,
+                course_number:course_number,
+                teacher:tea,
+
+                flag:1
+            },
+            success:function (data) {
+                if(data.success){
+                    layer.msg("选课成功!")
+                    unSelectedCourse()
+                }
+            }
+
+        })
+
+}
+        unSelectedCourse()
+    </script>
+</table>
+
+{% endblock %}

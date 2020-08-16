@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script src="../static/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <br>
+            <center><h2>信息完善</h2></center>
+        <br>
+        <div class="layui-col-sm10 layui-col-sm-offset1">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教师工号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" style="width: 400px" name="number">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" style="width: 400px" name="name">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">出生日期</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="date_birthday" class="layui-input">
+                    </div>
+                    <label class="layui-form-label" style="margin: 0px ;padding:10px 10px 0px 0px;width:80px">工作时间</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="working_hours" value="5" style="width:80px" class="layui-input" min="0" max="20" maxlength="2">
+                    </div>
+                </div>
+                <!--省市联动，我到时候会实现-->
+                 <div class="layui-form-item">
+                     <label class="layui-form-label">籍贯</label>
+                     <div class="layui-input-inline">
+                         <select name="province" id="pro" lay-filter="brickType">
+                             <option>请选择</option>
+                         </select>
+                     </div>
+                     <div class="layui-input-inline" >
+                         <select name="province_detail" id="cit">
+                                   <option>请选择</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="layui-form-item">
+                     <label class="layui-form-label" style="margin: 0px ;padding:10px 10px 0px 0px;width:80px">政治面貌</label>
+                     <div class="layui-input-inline" style="width:100px">
+                         <select name="politics_status">
+                             <option>党员
+                             <option>预备党员
+                             <option>入党积极分子
+                             <option>共青团员
+                             <option>群众
+                         </select>
+                     </div>
+                     <label class="layui-form-label">教育水平</label>
+                     <div class="layui-input-inline">
+                         <select type="text" name="education_level">
+                             <option value="">讲师
+                             <option value="">副教授
+                             <option value="">教授
+                         </select>
+                     </div>
+                 </div>
+                 <div class="layui-form-item">
+
+                 </div>
+                 <div class="layui-form-item">
+                     <label class="layui-form-label">工作履历</label>
+                     <div class="layui-input-inline">
+                          <textarea name="track_record" class="layui-textarea" style="width: 400px"></textarea>
+                     </div>
+                 </div>
+                 <div class="layui-form-item">
+                     <div class="layui-input-block">
+                         <button type="submit" style="width: 400px" class="layui-btn layui-btn-radius" id="submit_info">提交信息</button>
+                     </div>
+                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<script src="../static/js/place.js"></script>
+<script src="../static/js/liandong.js"></script>
+    <script>
+        $("#submit_info").click(function () {
+            $.ajax({
+                url:"注册控制器",
+                type:"POST",
+                data:$("form").serialize(),
+                success:function (data) {
+                    layui.layer.msg("信息已提交")
+                }
+            })
+            $("form").serialize();
+        })
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('select(brickType)', function(data){
+                getCity()
+            })
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            })
+        });
+    </script>
+</body>
+</html>

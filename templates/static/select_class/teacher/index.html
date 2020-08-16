@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher</title>
+    <link href="../../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <style>
+        .layui-form-label{
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+<form id="updatePassword" class="layui-form" style="width: 400px;height: 200px; display: none">
+    <br><br>
+    <div class="layui-form-item">
+        <label class="layui-form-label">原密码：</label>
+        <div class="layui-input-inline">
+            <input type="password" name="oldPassword" class="layui-input" required>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码：</label>
+        <div class="layui-input-inline">
+            <input type="password" class="layui-input" name="newPassword" required >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认新密码：</label>
+        <div class="layui-input-inline">
+            <input type="password" class="layui-input" name="enterNewPassword" required>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-inline"><button class="layui-btn" id="submit">确认修改</button></div>
+    </div>
+</form>
+<div class="layui-container">
+    <div class="layui-row">
+            <ul class="layui-col-sm10 layui-col-sm-offset1 layui-nav" id="item_list" lay-filter="">
+                <li class="layui-nav-item layui-this"><a href="">首页</a></li>
+                <!--<li class="layui-nav-item"><a href="javascript:getPage('./personal_manager.html');">信息管理</a></li>-->
+                <li class="layui-nav-item"><a href="http://127.0.0.1:5000/teacher_class_manager">课程管理</a></li>
+                <li class="layui-nav-item"><a href="http://127.0.0.1:5000/my_class_list">我的课表</a></li>
+                <li class="layui-nav-item"><a href="http://127.0.0.1:5000/score_count">成绩统计</a></li>
+                <li class="layui-nav-item"><a href="javascript:;" id="teacher_name"></a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="http://127.0.0.1:5000/teacher_personal_manager">完善资料</a> </dd>
+                        <dd><a href="http://127.0.0.1:5000/teacher_personal_manager">修改密码</a> </dd>
+                        <dd><a href="http://127.0.01:5000/login">退出登录</a> </dd>
+                    </dl>
+                </li>
+            </ul>
+    </div>
+    <div class="layui-row">
+        <div id="main" class="layui-col-sm10 layui-col-sm-offset1" style="height: 600px">
+            <!--这里放各个组件-->
+                <iframe id="content"src="login.html" scrolling="no" width="100%" height="100%" style="border: 0">
+                </iframe>
+            </div>
+    </div>
+</div>
+<script src="../../../static/layui/layui.all.js"></script>
+<script src="../../../static/js/util.js"></script>
+<script>
+    function getPage(path) {
+        $("#content").prop("src",path)
+    }
+    layui.use('element',function () {
+        var element = layui.element
+    })
+    $("#item_list li").addClass("layui-col-sm2")
+    $("#item_list li").css("text-align","center")
+    $("#teacher_name").text(teacher.name)
+    function updatePassword() {
+        layui.layer.open({
+            type: 1,
+            title: '修改教师密码',
+            area:['400px','300px'],
+            content: $('#updatePassword') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+        });
+    }
+    //提交修改密码
+    $(document).on("click","#submit",function () {
+        var oldPassword = $("input[name='oldPassword']").val()
+        var newPassword = $("input[name='newPassword']").val()
+        var enterNewPassword = $("input[name='enterNewPassword']").val()
+        if(oldPassword != teacher.password){
+            layui.layer.msg("旧密码错误")
+        }else{
+            if(newPassword == enterNewPassword){
+                $.ajax({
+                    url:"http://localhost:5000/manage/user/Teacher",
+                    type:"POST",
+                    data:{
+                        number:teacher.number,//需要修改密码的老师的学工号
+                        password:newPassword,
+                        flag:0
+                    },
+                    success:function (data) {
+                        if(data.success){
+                            layui.layer.msg("修改成功,请重新登录")
+                            window.sessionStorage.removeItem("teacher")
+                            location.href ="http://127.0.0.1:5000/login"
+                        }else{
+                            layui.layer.msg("修改失败")
+                        }
+                    }
+                })
+            }else{
+                layui.layer.msg("两次密码不匹配，请重新输入")
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

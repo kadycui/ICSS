@@ -1,0 +1,247 @@
+{% extends "stu_index.html" %}
+{% block content %}
+
+<!--    <link href="../../../static/layui/css/layui.css" rel="stylesheet">-->
+<!--    <script src="../../../static/js/jquery-3.3.1.js"></script>-->
+<!--    <script src="../../../static/layui/layui.all.js"></script>-->
+    <style>
+        .layui-form-label{
+            width: 100px;
+        }
+    </style>
+
+
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-sm10 layui-col-sm-offset1">
+        <br>
+            <center><h2>完善信息</h2></center>
+        <br>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" style="width: 400px" name="name" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" style="width: 400px" name="password" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="sex" id="man" value="男" title="男">
+                    <input type="radio" name="sex" id="woman" value="女" title="女">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">院系</label>
+                <div class="layui-input-inline" style="width: 100px">
+<!--                    <select name="depatment" id="department">-->
+<!--                        <option value="计科院">计科院</option>-->
+<!--                        <option value="经管院">经管院</option>-->
+<!--                        <option value="外国语学院">外国语学院</option>-->
+<!--                        <option value="文传院">文传院</option>-->
+<!--                    </select>-->
+                    <input type="text" id="department" class="layui-input" style="width: 100px" name=department" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+                <div class="layui-input-inline" style="width: 100px">
+<!--                    <select name="professional" id="professional">-->
+<!--                        <option>专业1</option>-->
+<!--                        <option>专业2</option>-->
+<!--                        <option>专业3</option>-->
+<!--                        <option>专业4</option>-->
+<!--                        <option>专业5</option>-->
+<!--                        <option>专业6</option>-->
+<!--                        <option>专业7</option>-->
+<!--                    </select>-->
+                    <input type="text" class="layui-input" style="width: 100px" name="professional" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+                <div class="layui-input-inline" style="width: 80px">
+<!--                    <select name="grade">-->
+<!--                        <option>2017级</option>-->
+<!--                        <option>2018级</option>-->
+<!--                        <option>2019级</option>-->
+<!--                        <option>2020级</option>-->
+<!--                    </select>-->
+                    <input type="text" class="layui-input" style="width: 100px" name="grade" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+             <div class="layui-form-item">
+            <!--省市联动，我到时候会实现-->
+            <label class="layui-form-label">籍贯</label>
+            <div class="layui-input-inline" style="width: 70px">
+                <input type="text" class="layui-input" style="width: 200px" name="province" class="layui-input" required lay-verify="required" autocomplete="off">
+            </div>
+            <div class="layui-input-inline" style="width: 70px">
+                <input type="text" class="layui-input" style="width: 200px" name="province_detail" class="layui-input" required lay-verify="required" autocomplete="off">
+            </div>
+            </div>
+
+            <div class="layui-form-item">
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">爱好</label>
+                <div class="layui-input-inline" style="width: 400px">
+                    <input type="checkbox" name="hobby" value="java" title="java">
+                    <input type="checkbox" name="hobby" value="AI" title="AI">
+                    <input type="checkbox" name="hobby" value="Hadoop" title="Hadoop">
+                    <input type="checkbox" name="hobby" value="数据分析" title="数据分析">
+                    <input type="checkbox" name="hobby" value="机器学习" title="机器学习">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">政治面貌</label>
+                <div class="layui-input-inline" style="width: 130px">
+                    <input type="text" class="layui-input" style="width: 150px" name="politics_status" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+                <label class="layui-form-label" style="width: 60px;margin: 0;padding: 0;margin-right: 10px;padding-top: 10px;">手机号</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="phone" style="width: 200px" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">家庭联系方式</label>
+                <div class="layui-input-inline">
+                    <textarea type="text" class="layui-textarea" name="family_card" required lay-verify="required" autocomplete="off"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-left: 60px">
+<!--                <div class="layui-input-inline">-->
+<!--                    <button type="reset" id="reset" style="width: 100px" class="layui-btn layui-btn-radius layui-btn-primary layui-btn-fluid" id="reset">重置表单</button>-->
+<!--                </div>-->
+                <div class="layui-input-inline">
+                    <button type="button"  style="width: 100px" class="layui-btn layui-btn-radius layui-btn-fluid" id="submit_info">保存信息</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<script src="../../../static/js/place.js"></script>
+<script src="../../../static/js/liandong.js"></script>
+<script src="../../../static/js/util.js"></script>
+<script>
+    var students = ""
+    // var student = JSON.parse(window.sessionStorage.getItem("students"));
+    // 重新加载数据
+function fillForm() {
+    $.ajax({
+        url: "http://127.0.0.1:5000/manage/user/againStudent",
+        type: "POST",
+        data: {"number": student.id},
+        success: function (data) {
+            students = data.data
+            // layui.layer.msg("信息已提交")
+
+            //若用户已经完善过了，只是要修改的话，就显示用户当前的信息
+            //
+            //因为学生表里面没有一个可以标志已经完善信息的flag，就以学生姓名为标准来判断
+            if (students.name == null || students.id == "") {
+                $("#reset").click()
+            } else {
+                //将已有的信息放到表单,并设置姓名只读
+                $("input[name='name']").val(students.name).attr("readonly", true)
+                $("input[name='password']").val(students.password)
+
+                //判断性别
+                if (students.sex == "男") {
+                    $("#man").attr("checked", true)
+                    $("#woman").attr("checked", false)
+                } else {
+                    $("#woman").attr("checked", true)
+                    $("#man").attr("checked", false)
+                }
+
+                //专业只读
+                // $("#professional").append("<option value='" + students.professional + "' selected>" + students.professional + "</option>")
+                $("input[name='professional']").val(students.professional).attr("readonly", true)
+                //院系只读
+                // $("input[name='department']").val(students.department).attr("readonly", true)
+                $("#department").val(students.department).attr("readonly", true)
+                $("input[name='grade']").val(students.grade).attr("readonly", true)
+                // $("#department").append("<option value='" + students.department + "' selected>" + students.department + "</option>")
+                //籍贯可更改
+                // $("#pro").append("<option value='" + students.province + "'selected>" + students.province + "</option>")
+                // $("#cit").append("<option value='" + students.province_detail + "'selected>" + students.province_detail + "</option>")
+                $("input[name='province']").val(students.province).attr("readonly", true).attr("readonly", true)
+                $("input[name='province_detail']").val(students.province_detail).attr("readonly", true)
+                //爱好
+                var hobbies = ""
+                if (students.hobby != "None") {
+                    hobbies = JSON.parse(students.hobby)
+                }
+                console.log(students.hobby, 89898989)
+                $.each(hobbies, function (index, item) {
+                    var hob = $("input[value='" + item + "']")
+                    if (hob != undefined) {
+                        hob.attr("checked", true)
+                    }
+                })
+                //政治面貌可以改
+                $("input[name='politics_status']").val(students.politics_status).attr("readonly", true)
+                //手机号可以更改
+                $("input[name='phone']").val(students.phone)
+                //家庭联系方式
+                $("textarea[name='family_card']").val(students.family_card)
+                layui.use('form', function () {
+                    var form = layui.form;
+                    layui.form.render()
+                    //监听提交
+                    form.on('select(brickType)', function (data) {
+                        getCity()
+                    })
+                })
+
+            }
+        }
+    })
+}
+
+
+    $("#submit_info").click(function () {
+
+    //拼装爱好
+    var hb = $("input[name='hobby']:checked")
+        console.log(hb,88888)
+        var arr = []
+        $.each(hb,function (index,item) {
+
+            arr.push($(item).val())
+
+        })
+    console.log(arr,9999)
+    //拼装数据
+    var submit_data = {
+        number:students.number,
+        password:$("input[name='password']").val(),
+        name:$("input[name='name']").val(),
+        sex:$("input[name='sex']").val(),
+        department:$("#department").val(),
+        professional:$("#professional").val(),
+        // province:$("#pro").val(),
+        province:$("input[name='province']").val(),
+        province_detail:$("input[name='province_detail']").val(),
+        hobby:JSON.stringify(arr),
+        politics_status:$("select[name='politics_status']").val(),
+        phone:$("input[name='phone']").val(),
+        family_card:$("textarea[name='family_card']").val(),
+        flag:0
+    }
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/Student",
+            type:"POST",
+            data:submit_data,
+            success:function (data) {
+                layui.layer.msg("信息已提交")
+            }
+        })
+    })
+    fillForm()
+</script>
+{% endblock %}

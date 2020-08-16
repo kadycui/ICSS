@@ -1,0 +1,54 @@
+{% extends "teacher_base.html" %}
+{% block content %}
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>学号</th>
+                <th>学生姓名</th>
+                <th>课程编号</th>
+                <th>课程名</th>
+                <th>课程类型</th>
+                <th>结束时间</th>
+                <th>分数</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--这里显示成绩-->
+        </tbody>
+    </table>
+<script src="../../../static/js/util.js"></script>
+<script>
+    function fillTable() {
+        $.ajax({
+            url:"http://127.0.0.1:5000/performance_teacher",//获取已有的成绩的接口,另外获取的数据里面加一个course_term表示开课学年
+            type:"POST",
+            data:{
+                teacher_number:teacher.number
+            },
+            success:function (data) {
+                if(data.success){
+                    score_list = data.data
+                    $.each(score_list,function (index,item) {
+
+                        var student_number = "<td>"+item.student_number+"</td>"
+                        var student_name = "<td>"+item.student_name+"</td>"
+                        var course_number = "<td>"+item.course_number+"</td>"
+                        var course_name = "<td>"+item.course_name+"</td>"
+                        var course_term = "<td>"+item.course_term+"</td>"// 返回的数据里面加一个学年字段
+                        var grade = "<td>"+item.grade+"</td>"
+                        $("<tr></tr>").append(student_number)
+                        .append(student_name)
+                        .append(course_number)
+                        .append(course_name)
+                        .append(course_term)
+                        .append(grade)
+                        .appendTo($("tboby"))
+                    })
+                }else{
+                    layer.msg("获取失败")
+                }
+            }
+        })
+    }
+</script>
+{% endblock %}

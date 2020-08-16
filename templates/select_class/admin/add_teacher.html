@@ -1,0 +1,59 @@
+{% extends "bash.html" %}
+{% block content %}
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="name" required  lay-verify="required" placeholder="请输入教师姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">工号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="number" required  lay-verify="required" placeholder="请输入教师工号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" value="123456" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="submit">确定添加</button>
+            <button id="agent" type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+{% endblock %}
+<script src="../../../static/js/util.js"></script>
+{% block menu %}
+<script>
+    //此次添加只提供学工号和密码，其他都为空，由老师登录到老师端去完善信息
+    $("#submit").click(function () {
+        $.ajax({
+            url:"http://127.0.0.1:5000/manage/user/Teacher",
+            type:"POST",
+            data:{
+                number:$("input[name='number']").val(),
+                name:$("input[name='name']").val(),
+                password:$("input[name='password']").val(),
+                flag:1
+            },
+            success:function (data) {
+                alert("添加成功")
+                if(data.success){
+                    layer.msg("添加成功")
+                    $("#reset").click()
+                }else{
+                    layer.msg("添加失败")
+                }
+            }
+        })
+    })
+    $("#agent").click(function () {
+        $("input[name='number']").val('')
+     })
+</script>
+
+
+{% endblock menu %}

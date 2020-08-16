@@ -1,0 +1,147 @@
+{% extends "index.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script src="../static/layui/layui.js"></script>
+    <style>
+        .layui-form-label{
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-sm10 layui-col-sm-offset1">
+        <br>
+            <center><h2>个人信息</h2></center>
+        <br>
+        <form action="" method="post" class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" style="width: 400px" name="name" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="sex" value="男" title="男"><input type="radio" name="sex" value="女" title="女">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">院系</label>
+                <div class="layui-input-inline" style="width: 100px">
+                    <select name="depatment">
+                        <option>计科院</option>
+                        <option>经管院</option>
+                        <option>外国语学院</option>
+                        <option>文传院</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 100px">
+                    <select name="professional">
+                        <option>专业1</option>
+                        <option>专业2</option>
+                        <option>专业3</option>
+                        <option>专业4</option>
+                        <option>专业5</option>
+                        <option>专业6</option>
+                        <option>专业7</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 80px">
+                    <select name="grade">
+                        <option>2017级</option>
+                        <option>2018级</option>
+                        <option>2019级</option>
+                        <option>2020级</option>
+                    </select>
+                </div>
+                <!--省市联动，我到时候会实现-->
+                <label class="layui-form-label" style="padding: 0;margin-right: 10px; padding-top: 10px; width: 30px">籍贯</label>
+                <div class="layui-input-inline" style="width: 70px">
+                    <select name="province" id="pro" lay-filter="brickType">
+                        <option>北京市</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 70px">
+                    <select name="province_detail" id="cit">
+                        <option>北京市</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">爱好</label>
+                <div class="layui-input-inline" style="width: 400px">
+                    <input type="checkbox" name="hobby" value="java" title="java">
+                    <input type="checkbox" name="hobby" value="AI" title="AI">
+                    <input type="checkbox" name="hobby" value="Hadoop" title="Hadoop">
+                    <input type="checkbox" name="hobby" value="数据分析" title="数据分析">
+                    <input type="checkbox" name="hobby" value="机器学习" title="机器学习">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">政治面貌</label>
+                <div class="layui-input-inline" style="width: 130px">
+                    <select name="politics_status">
+                        <option>党员
+                        <option>预备党员
+                        <option>入党积极分子
+                        <option>共青团员
+                        <option>群众
+                    </select>
+                </div>
+                <label class="layui-form-label" style="width: 60px;margin: 0;padding: 0;margin-right: 10px;padding-top: 10px;">手机号</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="phone" style="width: 200px" class="layui-input" required lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">家庭联系方式</label>
+                <div class="layui-input-inline">
+                    <textarea type="text" class="layui-textarea" name="family_card" required lay-verify="required" autocomplete="off"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-left: 60px">
+                <div class="layui-input-inline">
+                    <button type="button" style="width: 100px" class="layui-btn layui-btn-radius layui-btn-primary layui-btn-fluid" id="reset">重置表单</button>
+                </div>
+                <div class="layui-input-inline">
+                    <button type="button"  style="width: 100px" class="layui-btn layui-btn-radius layui-btn-fluid" id="submit_info">保存信息</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<script src="../static/js/place.js"></script>
+<script src="../static/js/liandong.js"></script>
+<script>
+    $("#submit_info").click(function () {
+        layui.layer.msg("信息已提交")
+        $.ajax({
+            url:"注册控制器",
+            type:"POST",
+            data:$("form").serialize(),
+            success:function (data) {
+                layui.layer.msg("信息已提交")
+            }
+        })
+        $("form").serialize();
+    })
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        form.on('select(brickType)', function(data){
+            getCity()
+        })
+    })
+</script>
+</body>
+{% endblock %}

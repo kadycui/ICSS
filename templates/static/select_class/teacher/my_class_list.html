@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../static/layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table">
+        <thead>
+            <tr><th colspan="3">我的课程表</th></tr>
+            <tr><th>课程编号</th><th>课名</th><th>时间</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>002</td>
+                <td>数据结构</td>
+                <td>周一 10:30-12:00</td>
+            </tr>
+            <tr>
+                <td>002</td>
+                <td>数据结构</td>
+                <td>周一 10:30-12:00</td>
+            </tr>
+        </tbody>
+    </table>
+<script src="../../../static/js/util.js"></script>
+<script>
+   var course_list = getCourseListByTeacher_id(teacher.id)
+   $.each(course_list,function (index,item) {
+       var course_number = "<td>"+item.course_number+"</td>"
+       var course_name = "<td>"+item.course_name+"</td>"
+       var course_time = "<td>"+item.class_day+item.class_hours+"</td>" //星期和时间点拼装
+   }); $("<tr></tr>").append(course_number).append(course_name).append(course_time).appendTo($("tbody"))
+</script>
+</body>
+</html>

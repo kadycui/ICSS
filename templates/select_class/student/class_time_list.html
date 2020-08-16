@@ -1,0 +1,42 @@
+{% extends "stu_index.html" %}
+{% block content %}
+
+    <link href="../../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../../static/js/jquery-3.3.1.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+
+    <table class="layui-table">
+        <thead>
+            <tr><th colspan="4" align="center">我的课程表</th></tr>
+            <tr><th>课程编号</th><th>课程名</th><th>上课时间</th><th>上课地点</th></tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script>
+        // var student = window.sessionStorage.getItem("student")
+        //填充表格数据
+        function insertClass_list(class_list){
+            $.each(class_list,function (index,item) {
+                var course_number = "<td>"+item.course_number+"</td>"
+                var course_name = "<td>"+item.course_name+"</td>"
+                var class_time = "<td>"+item.class_day+item.class_hours+"</td>"
+                var class_size = "<td>"+item.class_site+"</td>"
+                $("<tr></tr>").append(course_number).append(course_name).append(class_time).append(class_size).appendTo($("tbody"))
+            })
+        }
+        $.ajax({
+            url:"http://127.0.0.1:5000/student/getCourse",
+            type:"POST",
+            data:{
+                number:student.id,
+            },
+            success:function (data) {
+                $("tbody").empty()
+                insertClass_list(data.data)
+            }
+        })
+    </script>
+
+{% endblock %}
